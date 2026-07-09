@@ -27,14 +27,11 @@ jobs:
   semgrep-sast:
     name: Code Scan (SAST)
     runs-on: ubuntu-latest
+    container:
+      image: semgrep/semgrep
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
 
       - name: Code Scan (SAST)
-        run: |
-          # 1. Instal Semgrep secara global dengan mode quiet (-q) agar log bersih
-          pip install semgrep -q
-
-          # 2. Jalankan pemindaian tertarget pada folder routes/ dan lib/ saja agar cepat
-          semgrep ci --config=p/security-audit --fail-on-severity=ERROR routes/ lib/
+        run: semgrep scan --config=p/security-audit --fail-on-severity=ERROR routes/ lib/
