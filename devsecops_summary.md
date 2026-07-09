@@ -53,11 +53,11 @@ Untuk membuat pipeline yang andal, transparan, dan cepat, kita melakukan beberap
    Menghapus seluruh file workflow bawaan Juice Shop yang sangat berat agar fokus pada latihan penulisan pipeline DevSecOps mandiri.
 2. **Penerapan Batas Kegagalan Ketat**:
    Menghapus `|| true` pada npm audit dan menyetel `publishResults: "false"` serta `--fail-on-severity WARNING` pada Semgrep.
-3. **Mengatasi Log Penuh (Quiet Mode)**:
-   Proses instalasi Semgrep via `pip` menghasilkan log unduhan yang sangat panjang. Kita menambahkan opsi `-q` (`pip install semgrep -q`) agar log instalasi disembunyikan dan log terminal langsung berfokus pada hasil temuan Semgrep.
+3. **Menggunakan Container Resmi Semgrep (`semgrep/semgrep`)**:
+   Alih-alih menginstal Semgrep secara manual dengan `pip` (yang memakan waktu mengunduh dependensi), kita mengonfigurasi job `semgrep-sast` agar berjalan langsung di dalam container Docker resmi Semgrep (`semgrep/semgrep`). Ini menghilangkan proses instalasi sepenuhnya sehingga scanning langsung dimulai secara instan.
 4. **Optimasi Waktu Scan (Targeted Scan)**:
-   Karena Juice Shop bertipe monolitik raksasa dengan folder `frontend/` (Angular) yang sangat besar, pemindaian seluruh file membutuhkan waktu 2+ menit. Kita membatasi Semgrep untuk **hanya memindai folder backend** (`routes/` dan `lib/`):
+   Karena Juice Shop bertipe monolitik raksasa dengan folder `frontend/` (Angular) yang sangat besar, pemindaian seluruh file membutuhkan waktu lama. Kita membatasi Semgrep untuk **hanya memindai folder backend** (`routes/` dan `lib/`) menggunakan perintah CLI resmi:
    ```bash
-   semgrep ci --config=p/security-audit --fail-on-severity=ERROR routes/ lib/
+   semgrep scan --config=p/security-audit --fail-on-severity=ERROR routes/ lib/
    ```
    Langkah ini memangkas waktu pemindaian secara drastis dari menit menjadi **hitungan detik saja**.
