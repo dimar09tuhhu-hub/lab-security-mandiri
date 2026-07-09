@@ -1,0 +1,38 @@
+name: DevSecOps Practice Pipeline
+
+on:
+  push:
+    branches:
+      - '**' # Triggers on push to any branch
+  pull_request:
+
+jobs:
+  npm-audit:
+    name: Dependency Scan (SCA)
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      # Note: Juice Shop is intentionally vulnerable. npm audit will find issues.
+      # We use '|| true' so the pipeline doesn't fail immediately, allowing us to see the report.
+      - name: Run NPM Audit
+        run: npm audit || true
+
+  semgrep-sast:
+    name: Code Scan (SAST)
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      # Runs the official Semgrep action to scan the code for vulnerabilities
+      - name: Run Semgrep SAST
+        uses: semgrep/semgrep-action@v1
+        with:
+          config: auto
