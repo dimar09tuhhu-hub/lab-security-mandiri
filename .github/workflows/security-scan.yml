@@ -35,6 +35,6 @@ jobs:
       - name: Run Semgrep SAST
         uses: semgrep/semgrep-action@v1
         with:
-          config: auto
+          config: p/security-audit
           publishResults: "false"
           args: --fail-on-severity WARNING
