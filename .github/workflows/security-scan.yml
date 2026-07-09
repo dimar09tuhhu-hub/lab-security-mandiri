@@ -3,7 +3,7 @@ name: DevSecOps Practice Pipeline
 on:
   push:
     branches:
-      - '**' # Triggers on push to any branch
+      - "**" # Triggers on push to any branch
   pull_request:
 
 jobs:
@@ -22,7 +22,7 @@ jobs:
       # Note: Juice Shop is intentionally vulnerable. npm audit will find issues.
       # We use '|| true' so the pipeline doesn't fail immediately, allowing us to see the report.
       - name: Run NPM Audit
-        run: npm audit || true
+        run: npm audit --audit-level=high
 
   semgrep-sast:
     name: Code Scan (SAST)
@@ -36,3 +36,4 @@ jobs:
         uses: semgrep/semgrep-action@v1
         with:
           config: auto
+          publishResults: false
