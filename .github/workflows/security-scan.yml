@@ -36,4 +36,4 @@ jobs:
         uses: semgrep/semgrep-action@v1
         with:
           config: auto
-          publishResults: false
+          publishResults: "false"
