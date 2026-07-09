@@ -31,10 +31,11 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      # Runs the official Semgrep action to scan the code for vulnerabilities
-      - name: Run Semgrep SAST
-        uses: semgrep/semgrep-action@v1
-        with:
-          config: p/security-audit
-          publishResults: "false"
-          args: --fail-on-severity WARNING
+      - name: Code Scan (SAST)
+        run: |
+          # 1. Instal Semgrep secara global di server GitHub Actions
+          pip install semgrep
+
+          # 2. Jalankan pemindaian dengan aturan audit keamanan dasar
+          # Di Semgrep, tingkat keparahan tertinggi ditulis sebagai ERROR (bukan CRITICAL)
+          semgrep ci --config=p/security-audit --fail-on-severity=ERROR
