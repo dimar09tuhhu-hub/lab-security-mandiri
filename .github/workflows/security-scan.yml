@@ -37,3 +37,4 @@ jobs:
         with:
           config: auto
           publishResults: "false"
+          args: --fail-on-severity WARNING
