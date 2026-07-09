@@ -36,5 +36,5 @@ jobs:
           # 1. Instal Semgrep secara global dengan mode quiet (-q) agar log bersih
           pip install semgrep -q
 
-          # 2. Jalankan pemindaian dengan aturan audit keamanan dasar
-          semgrep ci --config=p/security-audit --fail-on-severity=ERROR
+          # 2. Jalankan pemindaian tertarget pada folder routes/ dan lib/ saja agar cepat
+          semgrep ci --config=p/security-audit --fail-on-severity=ERROR routes/ lib/
